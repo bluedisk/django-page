@@ -1,0 +1,34 @@
+{# TODO: 2019 update #}
+    <div class="container">
+<div class="mb-40">&nbsp;</div>
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <h2 class="title-underblock custom mb-30">자주하는 질문들</h2>
+                            <div class="panel-group" role="tablist" aria-multiselectable="true">
+                                
+                                {% for post in posts %}
+                                <div class="panel panel-bordered">
+                                    <div class="panel-heading" role="tab" id="heading{{ post.id }}">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" href="#collapse{{ post.id }}" aria-expanded="true" aria-controls="collapse{{ post.id }}">
+                                                {{ post.title }}
+                                                <span class="panel-icon"></span>
+                                            </a>
+                                        </h4>
+                                    </div><!-- End .panel-heading -->
+                                    <div id="collapse{{ post.id }}" class="panel-collapse collapse{% if selected == post.id %} in{% endif %}" role="tabpane{{ post.id }}" aria-labelledby="heading{{ post.id }}">
+                                        <div class="panel-body">
+                                        {{ post.content | safe }}
+                                        </div><!-- End .panel-body -->
+                                    </div><!-- End .panel-collapse -->
+                                </div><!-- End .panel -->
+                                {% endfor %}
+
+                            </div><!-- End .panel-group -->
+
+                    </div><!-- End .col-md-12 -->
+
+
+                </div><!-- End .row -->
+            </div><!-- End .container -->

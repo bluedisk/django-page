@@ -1,0 +1,50 @@
+{# TODO: 2019 update #}
+<div id="content" role="main">
+            <div class="page-header dark larger larger-desc">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h1>{{ cate.name }} </h1>
+                            <p class="page-header-desc">{{ cate.desc }}</p>
+                        </div><!-- End .col-md-6 -->
+                        <div class="col-md-6">
+                            <ol class="breadcrumb">
+                                <li><a href="/">Home</a></li>
+                                <li class="active">{{ cate.name }}</li>
+                            </ol>
+                        </div><!-- End .col-md-6 -->
+                    </div><!-- End .row -->
+                </div><!-- End .container -->
+            </div><!-- End .page-header -->
+
+            {% block list %}
+
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        {% for post in posts %}
+                        <article class="entry entry-simple{% if post.topmost %} bg-custom text-white{% endif %}">
+
+                            <h2 class="entry-title"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+
+                            <footer class="entry-footer clearfix">
+                                <span class="entry-cats">
+                                    <span class="entry-label">등록일:</span>{{ post.created }}
+                                </span><!-- End .entry-tags -->
+                                
+                                <a href="{{ post.get_absolute_url }}" class="entry-readmore text-right">내용보기 <i class="fa fa-angle-right"></i></a>
+                            </footer>
+
+                        </article>
+                        {% endfor %}
+
+                    </div><!-- End .col-md-12-->
+
+                </div><!-- End .row -->
+            </div><!-- End .container -->
+
+            <div class="mb-20"></div><!-- space -->
+
+            {% endblock %}
+        </div>
