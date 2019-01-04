@@ -2,9 +2,12 @@
 Simplest Django - Content Management System
 한.국.형. ㅋ
 
+**- 문서 정리 중 -**
+
 ## Features
-- 
+- page code 기반 자동 url 매칭
 - ckeditor 기반 admin 제공 
+- 기타등등 
 
 ## 의존성
 - Django (2.0+ 만 테스트)
@@ -16,7 +19,11 @@ Simplest Django - Content Management System
 - django-revision-compare
 - django-bootstrap4
 
-## 사용법
+## 설치
+### 0. pip install
+```python
+pip install django-page
+```
 ### 1. app setup
 INSTALL_APPS에 'page'추가
 
