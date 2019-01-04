@@ -1,5 +1,7 @@
 # Django-Page
-Simplest Django - Content Management System
+Django - Korean Style, Wordpress-like, Simplest, CMS (Content Management System)
+
+
 한.국.형. ㅋ
 
 **- 문서 정리 중 -**
