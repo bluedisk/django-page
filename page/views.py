@@ -4,6 +4,7 @@ import urllib
 import re
 import os
 from django import template
+from django.conf import settings
 
 from django.shortcuts import render, get_object_or_404
 from django.template import Template, RequestContext, Context
@@ -42,10 +43,11 @@ def page(request, page_id=None, page_code=None):
         'edit': reverse('admin:page_page_change', args=[page_obj.id])
     })
 
-    return render(request, 'page/page.html', {
+    return render(request, 'page/page/page.html', {
         'page': page_obj,
         'content': content,
-        'edit': reverse('admin:page_page_change', args=[page_obj.id])
+        'edit': reverse('admin:page_page_change', args=[page_obj.id]),
+        'default_featured': settings.PAGE_FEATURED_DEFAULT
         })
 
 
@@ -60,12 +62,14 @@ def post(request, post_id):
 
     content = unpack_content_with_request(request, post_obj.content)
 
-    return render(request, 'post/post.html', {
+    return render(request, 'page/post/post.html', {
         'title': post_obj.title,
+        'post': post_obj,
         'content': content,
         'cate': post_obj.cate,
-        'edit': reverse('admin:page_post_change', args=[post_obj.id])
-        })
+        'edit': reverse('admin:page_post_change', args=[post_obj.id]),
+        'default_featured': settings.PAGE_FEATURED_DEFAULT
+    })
 
 
 def post_list(request, cate_id):
@@ -81,8 +85,8 @@ def post_list(request, cate_id):
     except ValueError:
         selected = default_selected
 
-    return render(request, 'post/list.html', {
-        'style_name': 'post/style/' + (cate.template or 'basic_list.html'),
+    return render(request, 'page/post/list.html', {
+        'style_name': 'page/post/style/' + (cate.template or 'basic_list.html'),
         'cate': cate,
         'posts': posts,
         'selected': selected,

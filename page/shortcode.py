@@ -4,7 +4,6 @@ from pprint import pprint
 from django.conf import settings
 from django.template import RequestContext, Template
 
-
 REMAP_COMMANDS = {
     "페이지넣기": "page",
     "반복문구넣기": "pagelet",
@@ -18,11 +17,12 @@ UNPACK_WITH = (
     *settings.PAGE_UNPACK_WITH
 )
 
+
 def remap_and_markup(matches):
     groups = tuple(map(lambda x: x.strip(), matches.groups()))
 
     command = groups[0]
-    args =  groups[1].split()
+    args = groups[1].split()
 
     if command in REMAP_COMMANDS.keys():
         command = REMAP_COMMANDS[command]

@@ -91,7 +91,7 @@ class Pagelet(models.Model):
     title = models.CharField('문구 제목', max_length=40)
     code = models.SlugField('문구 코드', unique=True)
 
-    content = RichTextUploadingField('문구 내용', config_name='pagelet')
+    content = RichTextUploadingField('문구 내용', config_name='pagelet', null=True, blank=True, default="")
 
     updated = models.DateTimeField('업데이트', auto_now=True)
     created = models.DateTimeField('생성일', auto_now_add=True)
@@ -139,6 +139,8 @@ class Post(models.Model):
 
     topmost = models.BooleanField("상단고정", default=False, help_text='선택 시 리스트 상단에 고정 됩니다.')
     active = models.BooleanField('표시여부', default=True, help_text='체크 되어 있을 때 리스트에 표시 됩니다')
+    featured = ThumbnailerImageField('타이틀 이미지', upload_to='featured',
+                                     blank=True, null=True, help_text='이미지 추가 시 페이지 상단에 이미지 타이틀이 표시 됩니다.')
 
     title = models.CharField('포스트 제목', max_length=40)
     content = RichTextUploadingField('포스트 내용', config_name='post')

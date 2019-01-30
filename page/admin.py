@@ -19,7 +19,7 @@ class SlideInline(SortableInlineAdminMixin, admin.StackedInline):
 @admin.register(Page)
 class PageAdmin(VersionAdmin):
     list_display = ['title', 'code', 'id', 'updated', 'created']
-    inlines = [SlideInline,]
+    inlines = [SlideInline]
 
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)

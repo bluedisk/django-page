@@ -32,12 +32,26 @@ def pagelet(context, pagelet_code):
         pagelet_obj = Pagelet.objects.get(title=pagelet_code)
     except Pagelet.DoesNotExist:
         pagelet_obj, _ = Pagelet.objects.get_or_create(code=pagelet_code,
-                                                   defaults={'title': pagelet_code, 'content': pagelet_code})
+                                                       defaults={'title': pagelet_code, 'content': pagelet_code})
 
     return unpack_content_with_request(context['request'], pagelet_obj.content, {
         'title': pagelet_obj.title,
         'edit': reverse('admin:page_page_change', args=[pagelet_obj.id])
     })
+
+
+@register.simple_tag(takes_context=True)
+def pagelet_title(context, pagelet_code):
+    if not pagelet_code:
+        return ""
+
+    try:
+        pagelet_obj = Pagelet.objects.get(title=pagelet_code)
+    except Pagelet.DoesNotExist:
+        pagelet_obj, _ = Pagelet.objects.get_or_create(code=pagelet_code,
+                                                       defaults={'title': pagelet_code, 'content': pagelet_code})
+
+    return pagelet_obj.title
 
 
 @register.simple_tag

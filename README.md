@@ -52,6 +52,35 @@ urlpatterns = [
 
 ```
 
+### 3. Custumize Template
+templates/page/base.html 를 오버라이드해서 현 사이트 스타일과 일치하게 변경한다
+필수적으로 필요한 블럭명은 css, leader, content, title, subtitle, bgimage 이다
+
+아래는 base.html 템플릿 예시
+``` html
+<html lang="ko">
+<head>
+    <title>{{ site.name }}</title>
+
+    {% block css %}
+    {% endblock %}
+</head>
+<body class="st-container st-effect-3">
+
+<div class="wrapper">
+
+    {% block leader %}
+        <h1>{% block title %}Title{% endblock %}</h1>
+        <p>{% block subtitle %}Subtitle{% endblock %}</p>
+    {% endblock %}
+
+    {% block content %}
+    {% endblock %}
+</div>
+</body>
+</html>
+```
+
 ## Page Code
 영문으로 된 slug 타입 문자열로 바로 URL로 대응 된다.
 
@@ -59,7 +88,7 @@ urlpatterns = [
 따라서 admin등 다른 앱과 충돌이 되는 코드는 사용 하지말것!
 
 ### Build-in page code
-'home'의 경우 루트 URL ('/')에 대해 예약 되어 있다.
+페이지 코드 'home'의 경우 루트 URL ('/')에 대해 예약 되어 있다.
 
 
 ## Shortcode

@@ -13,9 +13,9 @@ def get_posts(category_code, limit=4):
 
 
 @register.simple_tag
-def get_post_category_name(category_code):
+def get_category_obj(category_code):
     try:
-        return PostCategory.objects.get(code=category_code).name
+        return PostCategory.objects.get(code=category_code)
     except PostCategory.DoesNotExist:
         return ""
 
