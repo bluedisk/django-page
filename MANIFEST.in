@@ -1,4 +1,4 @@
 include LICENSE
 include README.md
-recursive-include korean/static *
-recursive-include korean/templates *
+recursive-include page/static *
+recursive-include page/templates *
