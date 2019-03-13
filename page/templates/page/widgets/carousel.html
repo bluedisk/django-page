@@ -1,0 +1,115 @@
+{% load thumbnail %}
+{% load static %}
+
+<!--================================= banner -->
+
+<section class="rev-slider d-block d-md-none" style="position:relative">
+    <img src="{{ slides.0.image.slide.url }}" class="img-fluid">
+    <div class="p-2 text-center" style="position: absolute; top:50px; left:0; width: 100%">
+        <h1 class="theme-color uppercase shadow"><big>{{ slides.0.title }}</big></h1>
+    </div>
+    <div class="p-2 text-right" style="position: absolute; bottom: 20px; right: 20px; width: 100%">
+        <a class="button" href="{{ slides.0.button_link }}">{{ slides.0.button_label }}</a>
+    </div>
+</section>
+
+<section class="rev-slider d-none d-md-block">
+    <div id="rev_slider_268_1_wrapper" class="rev_slider_wrapper fullwidthbanner-container"
+         data-alias="webster-slider-2" data-source="gallery"
+         style="margin:0 auto;background:transparent;padding:0;">
+        <!-- START REVOLUTION SLIDER 5.4.6.3 fullwidth mode -->
+        <div id="rev_slider_268_1" class="rev_slider fullwidthabanner" style="display:none;"
+             data-version="5.4.6.3">
+            <ul>
+                {% for slide in slides %}
+                    <!-- SLIDE  -->
+                    <li data-index="rs-{{ slide.pk }}" data-transition="fade" data-slotamount="default"
+                        data-hideafterloop="0"
+                        data-hideslideonmobile="off" data-easein="default" data-easeout="default"
+                        data-masterspeed="300" data-thumb="{{ slide.image.slide_thumb.url }}"
+                        data-delay="{{ slide.get_delay_as_second }}" data-rotate="0" data-saveperformance="off"
+                        data-title="Slide"
+                        data-param1="" data-param2="" data-param3="" data-param4="" data-param5="" data-param6=""
+                        data-param7="" data-param8="" data-param9="" data-param10=""
+                        data-description="{{ slide.subtitle }}">
+                        <!-- MAIN IMAGE -->
+                        <img src="{{ slide.image.slide.url }}" alt="" data-bgposition="center center"
+                             data-bgfit="cover" data-bgrepeat="no-repeat" class="rev-slidebg" data-no-retina>
+                        <!-- LAYERS -->
+
+                        <!-- LAYER NR. 5 -->
+                        <div class="tp-caption  tp-resizeme rev-color"
+                             id="slide-{{ slide.id }}-layer-3"
+                             data-x="center" data-hoffset="-1"
+                             data-y="center" data-voffset="49"
+                             data-width="['auto']"
+                             data-height="['auto']"
+
+                             data-type="text"
+                             data-responsive_offset="on"
+
+                             data-frames='[{"delay":0,"speed":0,"frame":"0","from":"z:0;rX:0;rY:0;rZ:0;sX:0.8;sY:0.8;skX:0;skY:0;opacity:0;","to":"o:1;","ease":"Power4.easeOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;","ease":"Power3.easeInOut"}]'
+                             data-textAlign="['inherit','inherit','inherit','inherit']"
+                             data-paddingtop="[0,0,0,0]"
+                             data-paddingright="[0,0,0,0]"
+                             data-paddingbottom="[0,0,0,0]"
+                             data-paddingleft="[0,0,0,0]"
+
+                             style="z-index: 6; white-space: nowrap; font-size: 160px; line-height: 160px; font-weight: 700; color: #84ba3f; letter-spacing: 10px;font-family:Poppins;text-transform:uppercase;">
+                            {{ slide.title }}
+                        </div>
+
+                        <!-- LAYER NR. 6 -->
+                        <div class="tp-caption   tp-resizeme"
+                             id="slide-{{ slide.id }}-layer-2"
+                             data-x="center" data-hoffset=""
+                             data-y="center" data-voffset="145"
+                             data-width="['auto']"
+                             data-height="['auto']"
+
+                             data-type="text"
+                             data-responsive_offset="on"
+
+                             data-frames='[{"delay":0,"speed":0,"frame":"0","from":"x:right;","to":"o:1;","ease":"Power4.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;","ease":"Power3.easeInOut"}]'
+                             data-textAlign="['inherit','inherit','inherit','inherit']"
+                             data-paddingtop="[0,0,0,0]"
+                             data-paddingright="[0,0,0,0]"
+                             data-paddingbottom="[0,0,0,0]"
+                             data-paddingleft="[0,0,0,0]"
+
+                             style="z-index: 7; white-space: nowrap; font-size: 40px; line-height: 62px; font-weight: 600; color: #ffffff; letter-spacing: 20px;font-family: 'Nanum Gothic';">
+                            {{ slide.subtitle }}
+                        </div>
+
+                        {% if slide.button_label %}
+                            <!-- LAYER NR. 7 -->
+                            <a class="tp-caption rev-btn  tp-resizeme  rev-button"
+                               href="{{ slide.button_link }}" target="_self" id="slide-{{ slide.id }}-layer-5"
+                               data-x="center" data-hoffset="2"
+                               data-y="center" data-voffset="230"
+                               data-width="['auto']"
+                               data-height="['auto']"
+
+                               data-type="button"
+                               data-actions=''
+                               data-responsive_offset="on"
+
+                               data-frames='[{"delay":0,"speed":0,"frame":"0","from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;","to":"o:1;","ease":"Power4.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;","ease":"Power3.easeInOut"},{"frame":"hover","speed":"300","ease":"Power0.easeInOut","to":"o:1;rX:0;rY:0;rZ:0;z:0;","style":"c:rgb(50,50,50);bg:rgb(255,255,255);bs:solid;bw:0 0 0 0;"}]'
+                               data-textAlign="['inherit','inherit','inherit','inherit']"
+                               data-paddingtop="[12,12,12,12]"
+                               data-paddingright="[30,30,30,30]"
+                               data-paddingbottom="[12,12,12,12]"
+                               data-paddingleft="[30,30,30,30]"
+
+                               style="z-index: 8; white-space: nowrap; font-size: 22px; line-height: 22px; font-weight: 700; color: #ffffff; font-family:Montserrat;text-transform:uppercase;background-color:rgb(132,186,63);border-color:rgba(0,0,0,1);border-radius:3px 3px 3px 3px;outline:none;box-shadow:none;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;cursor:pointer;text-decoration: none;">{{ slide.button_label }} </a>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+
+            </ul>
+            <div class="tp-bannertimer tp-bottom" style="visibility: hidden !important;"></div>
+        </div>
+    </div>
+</section>
+
+<!--  banner =================================-->

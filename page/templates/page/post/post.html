@@ -1,0 +1,11 @@
+{% extends "page/base.html" %}
+
+{% block bgimage %}{{ post.featured.featured.url|default:default_featured }}{% endblock %}
+{% block title %}{{ post.title }}{% endblock %}
+{% block subtitle %}{{ post.subtitle|default_if_none:"" }}{% endblock %}
+
+{% block content %}
+<div class="container">
+{{ content|safe }}
+</div>
+{% endblock %}

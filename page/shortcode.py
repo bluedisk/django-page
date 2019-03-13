@@ -10,13 +10,17 @@ REMAP_COMMANDS = {
     "포함하기": "include",
     "가져오기": "include",
     "다운로드": "download",
-    **settings.PAGE_SHORTCODES
 }
 
-UNPACK_WITH = (
+if hasattr(settings, "PAGE_SHORTCODES"):
+    REMAP_COMMANDS = { **REMAP_COMMANDS, **settings.PAGE_SHORTCODES}
+
+UNPACK_WITH = [
     'page',
-    *settings.PAGE_UNPACK_WITH
-)
+]
+
+if hasattr(settings, "PAGE_UNPACK_WITH"):
+    UNPACK_WITH = (*UNPACK_WITH, *settings.PAGE_UNPACK_WITH)
 
 
 def remap_and_markup(matches):

@@ -1,0 +1,65 @@
+{% extends "page/base.html" %}
+{% load static %}
+
+{% block leader %}
+    {% if page.slides.count %}
+        {% include "page/widgets/carousel.html" with slides=page.slides.all %}
+    {% else %}
+        {{ block.super }}
+    {% endif %}
+{% endblock %}
+
+{% block bgimage %}{{ page.featured.featured.url|default:default_featured }}{% endblock %}
+{% block title %}{{ page.title }}{% endblock %}
+{% block subtitle %}{{ page.subtitle|default_if_none:"" }}{% endblock %}
+
+{% block popup %}
+    {% for popup in page.popup_set.all %}
+        {% include "page/widgets/popup.html" %}
+    {% endfor %}
+{% endblock %}
+
+{% block content %}
+    {{ content|safe }}
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script>
+        {{ page.script|safe }}
+    </script>
+    <script type="text/javascript" src="{% static 'js/draggable.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script type="text/javascript">
+        (function ($) {
+            var popups = $('.popup');
+
+            popups.each(function (e) {
+                $(this).drags();
+                var pk = $(this).data('popup-id');
+
+                if (Cookies.get('popup_' + pk) !== 'hide') {
+                    $(this).css('display', 'block');
+                }
+            });
+
+            $('.popup-close').on('click', function (e) {
+                var pk = $(this).data('popup-id');
+                $('#popup_' + pk).css('display', 'none');
+            });
+
+            $('.ignore-check').on('click', function (e) {
+                var pk = $(this).data('popup-id');
+                Cookies.set('popup_' + pk, 'hide', {expires: 7});
+                $('#popup_' + pk).css('display', 'none');
+            });
+        })(jQuery);
+    </script>
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/page.css' %}">
+    <style>
+        {{ page.style|safe }}
+    </style>
+{% endblock %}

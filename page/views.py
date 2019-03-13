@@ -47,7 +47,7 @@ def page(request, page_id=None, page_code=None):
         'page': page_obj,
         'content': content,
         'edit': reverse('admin:page_page_change', args=[page_obj.id]),
-        'default_featured': settings.PAGE_FEATURED_DEFAULT
+        'default_featured': settings.PAGE_FEATURED_DEFAULT if hasattr(settings, "PAGE_FEATURED_DEFAULT") else ''
         })
 
 
@@ -68,7 +68,7 @@ def post(request, post_id):
         'content': content,
         'cate': post_obj.cate,
         'edit': reverse('admin:page_post_change', args=[post_obj.id]),
-        'default_featured': settings.PAGE_FEATURED_DEFAULT
+        'default_featured': settings.PAGE_FEATURED_DEFAULT if hasattr(settings, "PAGE_FEATURED_DEFAULT") else ''
     })
 
 

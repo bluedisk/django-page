@@ -1,0 +1,25 @@
+{% if popup.is_active %}
+    <div class="card popup" id="popup_{{ popup.id }}"
+         style="top: {{ popup.pos_y }}; left: {{ popup.pos_x }}; position: absolute; display:none"
+         data-popup-id="{{ popup.id }}">
+        {% if popup.image %}
+            <img src="{{ popup.image.url }}" class="img-fluid"/>
+        {% else %}
+            <div class="card-body">
+                {{ popup.content|safe }}
+            </div>
+        {% endif %}
+
+        <div class="card-footer">
+            <button type="button" class="popup-close close" data-popup-id="{{ popup.id }}">
+                <span aria-hidden="true">&times;</span>
+            </button>
+
+            <div class="form-group form-inline mb-0 ">
+                <input class="ignore-check" type="checkbox" id="dismiss" data-popup-id="{{ popup.id }}"/> <label
+                    for="dismiss"> &nbsp;오늘 다시 보지 않기</label>
+            </div>
+        </div>
+    </div>
+
+{% endif %}
