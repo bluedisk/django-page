@@ -55,7 +55,7 @@ def pagelet_title(context, pagelet_code):
 
 
 @register.simple_tag
-def download(value):
+def download(value, color='button-border white'):
     try:
         int_value = int(value)
         target = DownloadableFile.objects.get(pk=int_value)
@@ -69,18 +69,18 @@ def download(value):
             return ""
 
     if not target.file:
-        return mark_safe("""<a class="button button-border white" href="#" 
+        return mark_safe("""<a class="button %s" href="#" 
             data-toggle="modal" data-target="#error-dialog" data-message="죄송합니다! %s 다운로드가 아직 준비되지 않았습니다."> 
             <span> %s 다운받기</span>
             <i class="fa fa-download"></i>
-            </a>""" % (target.name, target.name))
+            </a>""" % (color, target.name, target.name))
 
     url = reverse("page:download", args=(target.pk,)) + os.path.basename(target.file.name)
 
-    return mark_safe("""<a class="button button-border white" href="%s">
+    return mark_safe("""<a class="button %s" href="%s">
                         <span>%s 다운받기</span>
                         <i class="fa fa-download"></i>
-                    </a>""" % (url, target.name))
+                    </a>""" % (color ,url, target.name))
 
 
 @register.simple_tag

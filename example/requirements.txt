@@ -1,0 +1,5 @@
+django
+easy-thumbnails
+django-ckeditor
+django-reversion
+django-admin-sortable2

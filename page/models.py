@@ -59,7 +59,7 @@ class Slide(models.Model):
     def __str__(self):
         return self.title
 
-    def get_delay_as_second(self):
+    def get_delay_as_msec(self):
         return self.delay * 1000
 
     page = models.ForeignKey(Page, on_delete=models.CASCADE, related_name='slides')
@@ -163,3 +163,26 @@ class DownloadableFile(models.Model):
     file = models.FileField('양식 파일', upload_to="forms", null=True, blank=True)
 
     created = models.DateField('생성일자', auto_now_add=True)
+
+
+class Popup(models.Model):
+
+    class Meta:
+        verbose_name = "팝업창"
+        verbose_name_plural = "팝업창 목록"
+
+    def __str__(self):
+        return self.title
+
+    title = models.CharField('제목', max_length=300, help_text='관리자 구분용이고 외부에 표출되지 않습니다.')
+    page = models.ForeignKey(Page, verbose_name='표출 할 페이지', on_delete=models.CASCADE)
+
+    is_active = models.BooleanField('활성화 여부', default=False)
+
+    pos_x = models.CharField('팝업 가로 위치', max_length=100, default='50px')
+    pos_y = models.CharField('팝업 세로 위치', max_length=100, default='150px')
+
+    content = RichTextUploadingField('팝업 내용', config_name='post', help_text='팝업 내용을 직접 작성하는 경우 입력', blank=True, null=True)
+    image = models.ImageField('풀 이미지 팝업', upload_to='popup', blank=True, null=True, help_text='설정시 전체 팝업 내용은 이미지로만 채워집니다.')
+
+    created = models.DateTimeField('생성일', auto_now_add=True)

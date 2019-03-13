@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.core.cache import cache
 from reversion.admin import VersionAdmin
 
-from page.models import Page, Pagelet, DownloadableFile, Post, PostCategory, Slide
+from page.models import Page, Pagelet, DownloadableFile, Post, PostCategory, Slide, Popup
 
 
 class SlideInline(SortableInlineAdminMixin, admin.StackedInline):
@@ -16,10 +16,15 @@ class SlideInline(SortableInlineAdminMixin, admin.StackedInline):
         cache.clear()
 
 
+class PopupInline(admin.StackedInline):
+    model = Popup
+    extra = 0
+
+
 @admin.register(Page)
 class PageAdmin(VersionAdmin):
     list_display = ['title', 'code', 'id', 'updated', 'created']
-    inlines = [SlideInline]
+    inlines = [SlideInline, PopupInline]
 
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)

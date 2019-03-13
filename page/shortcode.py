@@ -9,6 +9,7 @@ REMAP_COMMANDS = {
     "반복문구넣기": "pagelet",
     "포함하기": "include",
     "가져오기": "include",
+    "다운로드": "download",
     **settings.PAGE_SHORTCODES
 }
 
