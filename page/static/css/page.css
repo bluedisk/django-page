@@ -1,0 +1,11 @@
+.page-popup {
+    position: absolute;
+    display:none;
+    top: 150px;
+    left: 50px;
+    z-index: 9999;
+}
+
+.page-mobile-popup {
+    display: none;
+}

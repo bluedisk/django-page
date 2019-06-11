@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Django-Page Sample</title>
+
+    <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800" rel="stylesheet">
+
+    {% block css %}
+        <style>
+            body {
+                font-family: 'Nanum Gothic', sans-serif;
+            }
+        </style>
+    {% endblock %}
+
+</head>
+<body>
+<nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand" href="#">
+        <i class="far fa-code"></i> Django-Page Example Project
+    </a>
+</nav>
+
+{% block content %}
+{% endblock %}
+
+</body>
+
+<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="//unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
+
+{% block script %}
+{% endblock %}
+</html>

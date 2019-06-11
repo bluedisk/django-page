@@ -39,19 +39,19 @@
                 var pk = $(this).data('popup-id');
 
                 if (Cookies.get('popup_' + pk) !== 'hide') {
-                    $(this).css('display', 'block');
+                    $(this).children('.card').css('display', 'block');
                 }
             });
 
             $('.popup-close').on('click', function (e) {
                 var pk = $(this).data('popup-id');
-                $('#popup_' + pk).css('display', 'none');
+                $('.popup_' + pk).children('.card').css('display', 'none');
             });
 
             $('.ignore-check').on('click', function (e) {
                 var pk = $(this).data('popup-id');
                 Cookies.set('popup_' + pk, 'hide', {expires: 7});
-                $('#popup_' + pk).css('display', 'none');
+                $('.popup_' + pk).children('.card').css('display', 'none');
             });
         })(jQuery);
     </script>
