@@ -9,13 +9,15 @@
 
     <title>{{ site.name }}</title>
 
+    <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
     {% block css %}
     {% endblock %}
 </head>
 <body class="st-container st-effect-3">
 
 <div class="wrapper">
-
     {% block leader %}
         <div class="bg-dark d-none d-lg-block" style="height:150px; "></div>
         <div class="mb-5"></div>
@@ -27,7 +29,7 @@
                     <div class="col-lg-12">
                         <div class="page-title-name">
                             <h1>{% block title %}Title{% endblock %}</h1>
-                            <p>{% block subtitle %}Subtitle{% endblock %}</p>
+                            <h4>{% block subtitle %}Subtitle{% endblock %}</h4>
                         </div>
                     </div>
                 </div>
@@ -39,6 +41,18 @@
     {% endblock %}
 
     {% block content %}
+    {% endblock %}
+
+    {% block scripts %}
+        <script src="//code.jquery.com/jquery-3.3.1.slim.min.js"
+                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                crossorigin="anonymous"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+                integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+                crossorigin="anonymous"></script>
+        <script src="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+                crossorigin="anonymous"></script>
     {% endblock %}
 </div>
 </body>

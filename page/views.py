@@ -19,7 +19,6 @@ from page.shortcode import unpack_content_with_request
 
 
 def page(request, page_id=None, page_code=None):
-
     if not page_id and not page_code:
         raise Http404("Page does not exist")
 
@@ -38,17 +37,24 @@ def page(request, page_id=None, page_code=None):
     if not page_obj:
         raise Http404("Page does not exist")
 
-    content = unpack_content_with_request(request, page_obj.content, {
+    if request.user_agent.is_mobile:
+        raw_content = page_obj.mobile_content
+    else:
+        raw_content = page_obj.content
+
+    content = unpack_content_with_request(request, raw_content, {
         'title': page_obj.title,
         'edit': reverse('admin:page_page_change', args=[page_obj.id])
     })
 
-    return render(request, 'page/page/page.html', {
+    template_name = page_obj.template or 'page/page/page.html'
+
+    return render(request, template_name, {
         'page': page_obj,
         'content': content,
         'edit': reverse('admin:page_page_change', args=[page_obj.id]),
         'default_featured': settings.PAGE_FEATURED_DEFAULT if hasattr(settings, "PAGE_FEATURED_DEFAULT") else ''
-        })
+    })
 
 
 def post(request, post_id):

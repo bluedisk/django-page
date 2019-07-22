@@ -10,6 +10,9 @@ REMAP_COMMANDS = {
     "포함하기": "include",
     "가져오기": "include",
     "다운로드": "download",
+    "파일바로보기": "view",
+
+    "페이지버튼넣기": "page_button",
 }
 
 if hasattr(settings, "PAGE_SHORTCODES"):

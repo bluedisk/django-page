@@ -19,15 +19,21 @@ class Page(models.Model):
     def get_absolute_url(self):
         return "/%s/" % self.code
 
-    code = models.SlugField('페이지 코드', unique=True)
+    code = models.SlugField('페이지 코드', unique=True, help_text='페이지 url로 사용됩니다. 단, "home"의 경우 예외적으로 루트가 됩니다.')
     title = models.CharField('페이지 제목', max_length=40)
     subtitle = models.CharField('페이지 부제목(선택)', max_length=100, blank=True, null=True)
     featured = ThumbnailerImageField('타이틀 이미지', upload_to='featured',
                                      blank=True, null=True, help_text='이미지 추가 시 페이지 상단에 이미지 타이틀이 표시 됩니다.')
 
-    content = RichTextUploadingField('페이지 내용', config_name='page')
-    style = models.TextField('Style', default='', blank=True, null=True)
-    script = models.TextField('Script', default='', blank=True, null=True)
+    content = RichTextUploadingField('PC 페이지 내용', config_name='page')
+    style = models.TextField('CSS', default='', blank=True, null=True, help_text='스타일 시트에 추가할 내용(테그 없이 작성)')
+
+    mobile_content = RichTextUploadingField('모바일 페이지 내용', config_name='page', blank=True, null=True)
+    mobile_style = models.TextField('CSS', default='', blank=True, null=True, help_text='스타일 시트에 추가할 내용(테그 없이 작성)')
+
+    script = models.TextField('Script', default='', blank=True, null=True, help_text='페이지에 추가할 스크립트 내용(테그 없이 작성)')
+    template = models.CharField('커스텀 템플릿', max_length=256, default='', blank=True,
+                                null=True, help_text='사이트 기본 템플릿(page.html)을 사용하지 않고 별도 템플릿을 사용하려는 경우 지정')
 
     updated = models.DateTimeField('업데이트', auto_now=True)
     created = models.DateTimeField('생성일', auto_now_add=True)
@@ -135,7 +141,7 @@ class Post(models.Model):
 
         return reverse("page:post", args=[self.id])
 
-    cate = models.ForeignKey(PostCategory, blank=True, null=True, on_delete=models.CASCADE)
+    cate = models.ForeignKey(PostCategory, on_delete=models.CASCADE)
 
     topmost = models.BooleanField("상단고정", default=False, help_text='선택 시 리스트 상단에 고정 됩니다.')
     active = models.BooleanField('표시여부', default=True, help_text='체크 되어 있을 때 리스트에 표시 됩니다')
@@ -151,7 +157,6 @@ class Post(models.Model):
 
 
 class DownloadableFile(models.Model):
-
     class Meta:
         verbose_name = "다운로드용 파일"
         verbose_name_plural = "다운로드용 파일 목록"
@@ -166,7 +171,6 @@ class DownloadableFile(models.Model):
 
 
 class Popup(models.Model):
-
     class Meta:
         verbose_name = "팝업창"
         verbose_name_plural = "팝업창 목록"
@@ -182,7 +186,9 @@ class Popup(models.Model):
     pos_x = models.CharField('팝업 가로 위치', max_length=100, default='50px')
     pos_y = models.CharField('팝업 세로 위치', max_length=100, default='150px')
 
-    content = RichTextUploadingField('팝업 내용', config_name='post', help_text='팝업 내용을 직접 작성하는 경우 입력', blank=True, null=True)
-    image = models.ImageField('풀 이미지 팝업', upload_to='popup', blank=True, null=True, help_text='설정시 전체 팝업 내용은 이미지로만 채워집니다.')
+    content = RichTextUploadingField('팝업 내용', config_name='post', help_text='팝업 내용을 직접 작성하는 경우 입력', blank=True,
+                                     null=True)
+    image = models.ImageField('풀 이미지 팝업', upload_to='popup', blank=True, null=True,
+                              help_text='설정시 전체 팝업 내용은 이미지로만 채워집니다.')
 
     created = models.DateTimeField('생성일', auto_now_add=True)

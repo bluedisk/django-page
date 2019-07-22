@@ -1,4 +1,3 @@
-from adminsortable2.admin import SortableInlineAdminMixin
 from django.contrib import admin
 from django.core.cache import cache
 from reversion.admin import VersionAdmin
@@ -6,7 +5,7 @@ from reversion.admin import VersionAdmin
 from page.models import Page, Pagelet, DownloadableFile, Post, PostCategory, Slide, Popup
 
 
-class SlideInline(SortableInlineAdminMixin, admin.StackedInline):
+class SlideInline(admin.StackedInline):
     sortable = "order"
     model = Slide
     extra = 0
@@ -26,6 +25,28 @@ class PageAdmin(VersionAdmin):
     list_display = ['title', 'code', 'id', 'updated', 'created']
     inlines = [SlideInline, PopupInline]
 
+    date_hierarchy = 'created'
+    fieldsets = (
+        (None, {
+            'fields': ('code', 'title', 'subtitle', 'featured')
+        }),
+        ('PC 환경 컨텐츠', {
+            'fields': ('content', 'style'),
+        }),
+        ('모바일 환경 컨텐츠', {
+            'classes': ('collapse',),
+            'fields': ('mobile_content', 'mobile_style'),
+        }),
+        ('커스터마이징', {
+            'classes': ('collapse',),
+            'fields': ('template','script'),
+        }),
+        ('기록', {
+            'fields': ('updated', 'created'),
+        }),
+    )
+    readonly_fields = ('updated', 'created')
+
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)
         cache.clear()
@@ -43,6 +64,7 @@ class PageletAdmin(VersionAdmin):
 @admin.register(DownloadableFile)
 class DownloadableFileAdmin(VersionAdmin):
     list_display = ['name', 'file', ]
+    date_hierarchy = 'created'
 
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)
@@ -54,6 +76,7 @@ class PostAdmin(VersionAdmin):
     list_display = ['title', 'active', 'topmost', 'created', 'cate']
     list_editable = ['active', 'topmost']
     list_filter = ['cate', 'active', 'topmost']
+    date_hierarchy = 'created'
 
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)
@@ -66,5 +89,3 @@ class PostCategoryAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)
         cache.clear()
-
-

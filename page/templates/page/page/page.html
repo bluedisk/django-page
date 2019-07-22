@@ -4,6 +4,12 @@
 {% block leader %}
     {% if page.slides.count %}
         {% include "page/widgets/carousel.html" with slides=page.slides.all %}
+
+        <div class="container mt-5">
+            <h1>{{ page.title }}</h1>
+            <h4>{{ page.subtitle }}</h4>
+            <hr/>
+        </div>
     {% else %}
         {{ block.super }}
     {% endif %}
@@ -20,7 +26,9 @@
 {% endblock %}
 
 {% block content %}
-    {{ content|safe }}
+    <div class="container">
+        <div style="min-height: 400px;">{{ content|safe }}</div>
+    </div>
 {% endblock %}
 
 {% block scripts %}
@@ -29,7 +37,7 @@
         {{ page.script|safe }}
     </script>
     <script type="text/javascript" src="{% static 'js/draggable.js' %}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script type="text/javascript">
         (function ($) {
             var popups = $('.popup');
@@ -60,6 +68,10 @@
 {% block css %}
     <link rel="stylesheet" href="{% static 'css/page.css' %}">
     <style>
-        {{ page.style|safe }}
+        {% if request.user_agent.is_mobile %}
+            {{ page.mobile_style|safe }}
+            {% else %}
+            {{ page.style|safe }}
+        {% endif %}
     </style>
 {% endblock %}

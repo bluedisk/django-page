@@ -70,7 +70,7 @@ def download(value, color='button-border white'):
 
     if not target.file:
         return mark_safe("""<a class="button %s" href="#" 
-            data-toggle="modal" data-target="#error-dialog" data-message="죄송합니다! %s 다운로드가 아직 준비되지 않았습니다."> 
+            data-togglerfe"modal" data-target="#error-dialog" data-message="죄송합니다! %s 다운로드가 아직 준비되지 않았습니다."> 
             <span> %s 다운받기</span>
             <i class="fa fa-download"></i>
             </a>""" % (color, target.name, target.name))
@@ -80,7 +80,7 @@ def download(value, color='button-border white'):
     return mark_safe("""<a class="button %s" href="%s">
                         <span>%s 다운받기</span>
                         <i class="fa fa-download"></i>
-                    </a>""" % (color ,url, target.name))
+                    </a>""" % (color, url, target.name))
 
 
 @register.simple_tag
@@ -99,3 +99,24 @@ def view(value):
 
     return mark_safe(
         '<a class="btn btn-primary" href="%s"><i class="fa fa-eye"></i> "%s" 보기</a>' % (target.file.url, target.name))
+
+
+@register.simple_tag
+def page_button(value, label=None, color='btn-info'):
+    try:
+        int_value = int(value)
+        target = Page.objects.get(pk=int_value)
+    except (ValueError, Page.DoesNotExist):
+        target = None
+
+    if not target:
+        try:
+            target = Page.objects.get(code=value)
+        except Page.DoesNotExist:
+            return ""
+
+    url = reverse("page:page_by_id", args=(target.pk,))
+    if not label:
+        label = target.title
+
+    return mark_safe("""<a class="btn %s" href="%s">%s</a>""" % (color, url, label))
