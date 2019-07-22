@@ -1,0 +1,87 @@
+{% load static %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    <title>{{ site.name }}</title>
+
+    <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
+    <link rel="stylesheet" href="{% static 'css/page.css' %}">
+    <style>
+        {% if request.user_agent.is_mobile %}
+            {{ page.mobile_style|safe }}
+        {% else %}
+            {{ page.style|safe }}
+        {% endif %}
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+
+    {% block popup %}
+        {% for popup in page.popup_set.all %}
+            {% include "page/widgets/popup.html" %}
+        {% endfor %}
+    {% endblock %}
+
+    {% block content %}
+        <div class="container">
+            <div style="min-height: 400px;">{{ content|safe }}</div>
+        </div>
+    {% endblock %}
+
+    {% block scripts %}
+        <script src="//code.jquery.com/jquery-3.3.1.slim.min.js"
+                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                crossorigin="anonymous"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+                integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+                crossorigin="anonymous"></script>
+        <script src="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+                crossorigin="anonymous"></script>
+
+        <script>
+            {{ page.script|safe }}
+        </script>
+        <script type="text/javascript" src="{% static 'js/draggable.js' %}"></script>
+        <script src="//cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+        <script type="text/javascript">
+            (function ($) {
+                var popups = $('.popup');
+
+                popups.each(function (e) {
+                    $(this).drags();
+                    var pk = $(this).data('popup-id');
+
+                    if (Cookies.get('popup_' + pk) !== 'hide') {
+                        $(this).children('.card').css('display', 'block');
+                    }
+                });
+
+                $('.popup-close').on('click', function (e) {
+                    var pk = $(this).data('popup-id');
+                    $('.popup_' + pk).children('.card').css('display', 'none');
+                });
+
+                $('.ignore-check').on('click', function (e) {
+                    var pk = $(this).data('popup-id');
+                    Cookies.set('popup_' + pk, 'hide', {expires: 7});
+                    $('.popup_' + pk).children('.card').css('display', 'none');
+                });
+            })(jQuery);
+        </script>
+    {% endblock %}
+</div>
+</body>
+</html>
+

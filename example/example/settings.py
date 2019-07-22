@@ -45,7 +45,9 @@ INSTALLED_APPS = [
     'adminsortable2',
 
     'main',
-    'page'
+    'page',
+
+    'django_user_agents',
 ]
 
 MIDDLEWARE = [
@@ -56,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_user_agents.middleware.UserAgentMiddleware',
 ]
 
 ROOT_URLCONF = 'example.urls'
@@ -112,9 +115,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko-kr'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
@@ -130,6 +133,7 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# settings for django-page dependencies
 CKEDITOR_UPLOAD_PATH = 'upload'
 
 THUMBNAIL_ALIASES = {
@@ -140,7 +144,7 @@ THUMBNAIL_ALIASES = {
             'crop': True,
             'upscale': True
         },
-        'slide_thumb': {
+        'slide': {
             'size': (1920, 900),
             'autocrop': True,
             'crop': True,
@@ -148,3 +152,5 @@ THUMBNAIL_ALIASES = {
         }
     },
 }
+
+USER_AGENTS_CACHE = 'default'
