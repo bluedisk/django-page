@@ -1,0 +1,75 @@
+{% extends "page/base.html" %}
+{% load static %}
+
+{% block leader %}
+    {% if page.slides.count %}
+        {% include "page/widgets/carousel.html" with slides=page.slides.all %}
+
+        <div class="container mt-5">
+            <h1>{{ page.title }}</h1>
+            <h4>{{ page.subtitle }}</h4>
+            <hr/>
+        </div>
+    {% else %}
+        {{ block.super }}
+    {% endif %}
+{% endblock %}
+
+{% block bgimage %}{{ page.featured.featured.url|default:default_featured }}{% endblock %}
+{% block title %}{{ page.title }}{% endblock %}
+{% block subtitle %}{{ page.subtitle|default_if_none:"" }}{% endblock %}
+
+{% block popup %}
+    {% for popup in page.popup_set.all %}
+        {% include "page/widgets/popup.html" %}
+    {% endfor %}
+{% endblock %}
+
+{% block content %}
+    <div style="min-height: 400px;">{{ content|safe }}</div>
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script>
+        {{ page.script|safe }}
+    </script>
+    <script type="text/javascript" src="{% static 'js/draggable.js' %}"></script>
+    <script src="//cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script type="text/javascript">
+        (function ($) {
+            var popups = $('.popup');
+
+            popups.each(function (e) {
+                $(this).drags();
+                var pk = $(this).data('popup-id');
+
+                if (Cookies.get('popup_' + pk) !== 'hide') {
+                    $(this).children('.card').css('display', 'block');
+                }
+            });
+
+            $('.popup-close').on('click', function (e) {
+                var pk = $(this).data('popup-id');
+                $('.popup_' + pk).children('.card').css('display', 'none');
+            });
+
+            $('.ignore-check').on('click', function (e) {
+                var pk = $(this).data('popup-id');
+                Cookies.set('popup_' + pk, 'hide', {expires: 7});
+                $('.popup_' + pk).children('.card').css('display', 'none');
+            });
+        })(jQuery);
+    </script>
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/page.css' %}">
+    <style>
+        {% if request.user_agent.is_mobile %}
+            {{ page.mobile_style|safe }}
+            {% else %}
+            {{ page.style|safe }}
+        {% endif %}
+    </style>
+{% endblock %}
