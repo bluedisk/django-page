@@ -15,11 +15,27 @@ Django - Korean Style, Wordpress-like, Simplest, CMS (Content Management System)
 - Django (2.0+ 만 테스트)
 - django-ckeditor
 - easy-thumbnails
+- django-user-agents
+- django-admin-sortable2
 
 ## 권장 설치
 - django-revision
 - django-revision-compare
 - django-bootstrap4
+
+## DEMO
+셈플 테스트를 위한 예제 사이트를 제공합니다.
+sqlite3 기반의 셈플 데이터도 포함되어 있습니다.
+
+### Run
+``` bash
+$ git clone https://github.com/bluedisk/django-page.git
+$ cd example
+$ pip install -r requirements.txt
+$ ./manage.py runserver
+```
+
+관리자 화면 로그인 계정과 비밀번호는 admin / 관리자 입니다.
 
 ## 설치
 ### 0. pip install
@@ -27,12 +43,24 @@ Django - Korean Style, Wordpress-like, Simplest, CMS (Content Management System)
 pip install django-page
 ```
 ### 1. app setup
-INSTALL_APPS에 'page'추가
+INSTALL_APPS에 'page'와 의존성 앱추가
 
 ``` python
 INSTALLED_APPS = [
     ...
+
+    # 필수 추가 앱
     'page',
+    'ckeditor',
+    'ckeditor_uploader', # 선택
+    'easy_thumbnails',
+    'django_user_agents',
+    'adminsortable2',
+
+    # 권장 설치 앱
+    'reversion',
+    'reversion_compare',
+
     ...
 ```
 
@@ -52,7 +80,19 @@ urlpatterns = [
 
 ```
 
-### 3. Custumize Template
+### 3. Middleware 추가 
+
+django-user-agents 의존성으로 미들웨어 추가 필요 
+
+``` python
+
+MIDDLEWARE = [
+    ...
+    'django_user_agents.middleware.UserAgentMiddleware',
+]
+```
+
+### 4. Custumize Template
 templates/page/base.html 를 오버라이드해서 현 사이트 스타일과 일치하게 변경한다
 필수적으로 필요한 블럭명은 css, leader, content, title, subtitle, bgimage 이다
 

@@ -37,7 +37,7 @@ def page(request, page_id=None, page_code=None):
     if not page_obj:
         raise Http404("Page does not exist")
 
-    if request.user_agent.is_mobile:
+    if request.user_agent.is_mobile and page_obj.mobile_content:
         raw_content = page_obj.mobile_content
     else:
         raw_content = page_obj.content
