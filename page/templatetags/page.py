@@ -68,7 +68,7 @@ def download(value, color='button-border white'):
         except DownloadableFile.DoesNotExist:
             return ""
 
-    if not target.file:
+    if not target.file or not target.file.name:
         return mark_safe("""<a class="button %s" href="#" 
             data-togglerfe"modal" data-target="#error-dialog" data-message="죄송합니다! %s 다운로드가 아직 준비되지 않았습니다."> 
             <span> %s 다운받기</span>

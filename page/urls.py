@@ -7,7 +7,7 @@ from . import views
 app_name = "page"
 
 urlpatterns = [
-    re_path(r'^download/(?P<file_id>\d+)/', views.download, name='download'),
+    path(r'download/<int:file_id>/<str:file_name>', views.download, name='download'),
 
     path('post/<int:post_id>/', views.post, name='post'),
     path('post/<str:cate_id>/', views.post_list, name='post_list'),
