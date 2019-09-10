@@ -99,13 +99,13 @@ def post_list(request, cate_id):
     })
 
 
-def download(request, file_id=None):
+def download(request, file_id=None, file_name=None):
     file_obj = get_object_or_404(DownloadableFile, pk=file_id)
 
     if not file_obj.file:
         raise Http404
 
-    file_name = os.path.basename(file_obj.file.name)
+    file_name = file_name or os.path.basename(file_obj.file.name)
 
     response = HttpResponse(file_obj.file, content_type='application/octet-stream')
 
