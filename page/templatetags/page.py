@@ -75,7 +75,7 @@ def download(value, color='button-border white'):
             <i class="fa fa-download"></i>
             </a>""" % (color, target.name, target.name))
 
-    url = reverse("page:download", args=(target.pk,)) + os.path.basename(target.file.name)
+    url = reverse("page:download", args=(target.pk, os.path.basename(target.file.name)))
 
     return mark_safe("""<a class="button %s" href="%s">
                         <span>%s 다운받기</span>

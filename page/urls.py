@@ -7,6 +7,7 @@ from . import views
 app_name = "page"
 
 urlpatterns = [
+    path(r'download/<int:file_id>', views.download, name='download'),
     path(r'download/<int:file_id>/<str:file_name>', views.download, name='download'),
 
     path('post/<int:post_id>/', views.post, name='post'),
