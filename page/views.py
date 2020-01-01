@@ -16,6 +16,24 @@ from page.models import Page, DownloadableFile, Post, PostCategory
 from django.core.exceptions import ObjectDoesNotExist
 
 from page.shortcode import unpack_content_with_request
+from page.renderer import render_page, render_post
+
+
+def home(request):
+    try:
+        page_obj = Page.objects.get(page_type='root')
+    except Page.DoesNotExist:
+
+        try:
+            page_obj = Page.objects.get(page_type='main')
+        except Page.DoesNotExist:
+
+            try:
+                page_obj = Page.objects.get(code='home')
+            except Page.DoesNotExist:
+                raise Http404()
+
+    return render_page(request, page_obj)
 
 
 def page(request, page_id=None, page_code=None):
@@ -37,24 +55,7 @@ def page(request, page_id=None, page_code=None):
     if not page_obj:
         raise Http404("Page does not exist")
 
-    if request.user_agent.is_mobile and page_obj.mobile_content:
-        raw_content = page_obj.mobile_content
-    else:
-        raw_content = page_obj.content
-
-    content = unpack_content_with_request(request, raw_content, {
-        'title': page_obj.title,
-        'edit': reverse('admin:page_page_change', args=[page_obj.id])
-    })
-
-    template_name = page_obj.template or 'page/page/page.html'
-
-    return render(request, template_name, {
-        'page': page_obj,
-        'content': content,
-        'edit': reverse('admin:page_page_change', args=[page_obj.id]),
-        'default_featured': settings.PAGE_FEATURED_DEFAULT if hasattr(settings, "PAGE_FEATURED_DEFAULT") else ''
-    })
+    return render_page(request, page_obj)
 
 
 def post(request, post_id):
@@ -66,16 +67,7 @@ def post(request, post_id):
     except Post.DoesNotExist:
         post_obj = Post.objects.all().order_by('-created')[0]
 
-    content = unpack_content_with_request(request, post_obj.content)
-
-    return render(request, 'page/post/post.html', {
-        'title': post_obj.title,
-        'post': post_obj,
-        'content': content,
-        'cate': post_obj.cate,
-        'edit': reverse('admin:page_post_change', args=[post_obj.id]),
-        'default_featured': settings.PAGE_FEATURED_DEFAULT if hasattr(settings, "PAGE_FEATURED_DEFAULT") else ''
-    })
+    return render_post(request, post_obj)
 
 
 def post_list(request, cate_id):

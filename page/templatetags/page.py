@@ -11,6 +11,17 @@ from page.shortcode import unpack_content_with_request
 register = template.Library()
 
 
+@register.simple_tag
+def main_url():
+    try:
+        return Page.objects.get(page_type='main').get_absolute_url()
+    except Page.DoesNotExist:
+        try:
+            return Page.objects.get(code='main').get_absolute_url()
+        except Page.DoesNotExist:
+            return '/'
+
+
 @register.simple_tag(takes_context=True)
 def page(context, page_code):
     if not page_code:

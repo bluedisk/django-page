@@ -22,13 +22,13 @@ class PopupInline(admin.StackedInline):
 
 @admin.register(Page)
 class PageAdmin(VersionAdmin):
-    list_display = ['title', 'code', 'id', 'updated', 'created']
+    list_display = ['title', 'code', 'id', 'page_type_icon', 'updated', 'created']
     inlines = [SlideInline, PopupInline]
 
     date_hierarchy = 'created'
     fieldsets = (
         (None, {
-            'fields': ('code', 'title', 'subtitle', 'featured')
+            'fields': ('code', 'page_type', 'title', 'subtitle', 'featured')
         }),
         ('PC 환경 컨텐츠', {
             'fields': ('content', 'style'),
@@ -46,6 +46,17 @@ class PageAdmin(VersionAdmin):
         }),
     )
     readonly_fields = ('updated', 'created')
+
+    def page_type_icon(self, obj):
+        return {
+            'root': '루트',
+            'main': '메인',
+            'home': '루트+메인'
+        }.get(obj.page_type, "")
+
+
+    page_type_icon.readonly=True
+    page_type_icon.short_description = "페이지 타입"
 
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)

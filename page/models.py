@@ -19,7 +19,21 @@ class Page(models.Model):
     def get_absolute_url(self):
         return "/%s/" % self.code
 
+    SPECIAL_CHOICES = (
+        (None, '일반 페이지'),
+        ('root', '루트 페이지'),
+        ('main', '메인 페이지'),
+        ('home', '루트 + 메인')
+    )
+
     code = models.SlugField('페이지 코드', unique=True, help_text='페이지 url로 사용됩니다. 단, "home"의 경우 예외적으로 루트가 됩니다.')
+    page_type = models.CharField('특별한 페이지', null=True, choices=SPECIAL_CHOICES, default=None, max_length=10,
+                               help_text="""
+    랜딩 페이지: 처음 사이트에 진입하면 표시되는 사이트 입니다. 페이지 코드와 무관하게 루트 주소 "/"를 갖습니다.<br/>
+    메인 페이지: 페이지 내에서 첫 페이지로 돌아갈 때에 목적지가 되는 페이지 입니다. 로고나 '처음으로' 버튼 등에 링크됩니다.<br/>
+    랜딩 + 메인: 루트이자 첫 페이지로 대부분의 사이트에서 홈페이지에 해당 됩니다.
+    """)
+
     title = models.CharField('페이지 제목', max_length=40)
     subtitle = models.CharField('페이지 부제목(선택)', max_length=100, blank=True, null=True)
     featured = ThumbnailerImageField('타이틀 이미지', upload_to='featured',
@@ -37,6 +51,25 @@ class Page(models.Model):
 
     updated = models.DateTimeField('업데이트', auto_now=True)
     created = models.DateTimeField('생성일', auto_now_add=True)
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if self.page_type == 'main':
+            if Page.objects.filter(page_type='main').exists():
+                Page.objects.filter(page_type='main').update(page_type=None)
+
+            if Page.objects.filter(page_type='home').exists():
+                Page.objects.filter(page_type='home').update(page_type='root')
+
+        elif self.page_type == 'root':
+            if Page.objects.filter(page_type__in=['home', 'root']).exists():
+                if Page.objects.filter(page_type='main').exists():
+                    Page.objects.filter(page_type='main').update(page_type=None)
+                Page.objects.filter(page_type__in=['home', 'root']).update(page_type='main')
+
+        elif self.page_type == 'home':
+            Page.objects.update(page_type=None)
+
+        super().save(force_insert, force_update, using, update_fields)
 
 
 def path_and_rename(instance, filename):
